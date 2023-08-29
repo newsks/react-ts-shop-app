@@ -1,38 +1,33 @@
-import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchProduct } from '../../store/products/product.slice';
-import styles from './DetailPage.module.scss'
-import Loader from '../../components/loader/Loader';
-import { addToCart } from '../../store/cart/cart.slice';
-
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { addToCart } from "../../store/cart/cart.slice";
+import { fetchProduct } from "../../store/products/product.slice";
+import styles from "./DetailPage.module.scss";
 
 const DetailPage = () => {
-
   const { id } = useParams();
   const productId = Number(id);
   const dispatch = useAppDispatch();
 
-  const { product, isLoading } = useAppSelector((state)=> state.productSlice);
-  const { products } = useAppSelector((state)=> state.cartSlice);
-  const productMatching = products.some((product)=> product.id === product.id);
+  const { product, isLoading } = useAppSelector((state) => state.productSlice);
+  const { products } = useAppSelector((state) => state.cartSlice);
+  const productMatching = products.some((product) => product.id === product.id);
 
   useEffect(() => {
+    dispatch(fetchProduct(productId));
+  }, [productId]);
 
-    dispatch(fetchProduct(productId))
-    
-  }, [productId])
-
-  
   const addItemToCart = () => {
     dispatch(addToCart(product));
-  }
-  // console.log(product);
+  };
+
   return (
-      <div className='page'>
+    <div className="page">
       {isLoading ? (
-            <Loader/>
-      ) : 
+        <Loader />
+      ) : (
         <div className={styles.card_wrapper}>
           <div className={styles.card_img}>
             <img src={product.image} alt="product card" />
@@ -41,7 +36,7 @@ const DetailPage = () => {
             <h3>{product.category}</h3>
             <h1>{product.title}</h1>
 
-            <h4> $ {product.price}</h4>
+            <h4>$ {product.price}</h4>
             <p>{product.description}</p>
             <div>
               <button
@@ -54,11 +49,9 @@ const DetailPage = () => {
             </div>
           </div>
         </div>
-    }
-    
-
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default DetailPage
+export default DetailPage;

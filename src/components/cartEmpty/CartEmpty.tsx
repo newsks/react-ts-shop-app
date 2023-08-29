@@ -1,8 +1,12 @@
-import React from 'react'
-import styles from './CartEmpty.module.scss'
-import { Link } from 'react-router-dom'
+import { FC } from "react";
+import styles from "./CartEmpty.module.scss";
+import { Link } from "react-router-dom";
 
-const CartEmpty = ({ title }) => {
+type CartEmptyProps = {
+  title: string;
+};
+
+const CartEmpty: FC<CartEmptyProps> = ({ title }) => {
   return (
     <div className={styles.cart_empty}>
       <img src="img/empty-cart.png" alt="cart empty" />
@@ -10,7 +14,7 @@ const CartEmpty = ({ title }) => {
       <p>{title}에 상품을 넣어주세요.</p>
       <Link to="/">계속 쇼핑하기</Link>
     </div>
-  )
-}
+  );
+};
 
-export default CartEmpty
+export default CartEmpty;
